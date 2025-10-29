@@ -17,7 +17,7 @@ export default function Hero() {
           <div className="mb-8 flex justify-center">
             <div className="rounded-full border-4 border-blue-400 shadow-xl overflow-hidden" style={{ width: '18rem', height: '18rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <img
-                src="/src/photo/port.jpg"
+                src="/port.jpg"
                 alt="Sarobidy"
                 className="w-full h-full object-contain"
                 style={{ display: 'block' }}
