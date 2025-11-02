@@ -52,7 +52,7 @@ export default function Hero() {
               Découvrir mon travail
             </button>
             <a
-              href="/src/cv/CV_Anjarasoa Sarobidy_Andrianarivo_développeur (1).pdf"
+              href="/src/cv/CV_Anjarasoa_Sarobidy_Andrianarivo.pdf"
               download
               className="px-8 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white rounded-lg font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
             >
