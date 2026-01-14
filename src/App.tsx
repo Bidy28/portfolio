@@ -9,10 +9,9 @@ import Footer from './components/Footer';
 import { useTheme } from './hooks/useTheme';
 
 function App() {
-  const { theme } = useTheme();
+  useTheme();
 
   useEffect(() => {
-    // Smooth scrolling pour les ancres
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -26,18 +25,16 @@ function App() {
   }, []);
 
   return (
-    <div className={`${theme === 'dark' ? 'dark' : ''} font-sans`}>
-      <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
-        <Header />
-        <main>
-          <Hero />
-          <About />
-          <Projects />
-          <Skills />
-          <Contact />
-        </main>
-        <Footer />
-      </div>
+    <div className="font-sans min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+      <Header />
+      <main>
+        <Hero />
+        <About />
+        <Projects />
+        <Skills />
+        <Contact />
+      </main>
+      <Footer />
     </div>
   );
 }
