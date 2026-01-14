@@ -1,7 +1,10 @@
 import React from 'react';
 import { User, Code, Database } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 export default function About() {
+  const { ref, controls } = useScrollAnimation();
   const highlights = [
     {
       icon: <Code className="h-8 w-8 text-blue-600 dark:text-blue-400" />,
@@ -21,8 +24,16 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="py-20 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-4">
+    <section id="about" className="py-20 bg-white dark:bg-gray-900" ref={ref}>
+      <motion.div 
+        className="container mx-auto px-4"
+        initial="hidden"
+        animate={controls}
+        variants={{
+          hidden: { opacity: 0, y: 75 },
+          visible: { opacity: 1, y: 0, transition: { duration: 0.6, staggerChildren: 0.2 } }
+        }}
+      >
         <div className="max-w-6xl mx-auto">
           {/* Titre de section */}
           <div className="text-center mb-16">
@@ -65,9 +76,13 @@ export default function About() {
             {/* Cartes de compétences */}
             <div className="space-y-6">
               {highlights.map((item, index) => (
-                <div
+                <motion.div
                   key={index}
                   className="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                  variants={{
+                    hidden: { opacity: 0, x: -50 },
+                    visible: { opacity: 1, x: 0, transition: { duration: 0.5, delay: index * 0.1 } }
+                  }}
                 >
                   <div className="flex items-start space-x-4">
                     <div className="p-3 bg-white dark:bg-gray-700 rounded-lg shadow-md">
@@ -82,12 +97,12 @@ export default function About() {
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

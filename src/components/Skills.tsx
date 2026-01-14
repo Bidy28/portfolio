@@ -1,8 +1,11 @@
 import React from 'react';
 import { Code, Database, Wrench, Server } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { skillsData } from '../data/skillsData';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 export default function Skills() {
+  const { ref, controls } = useScrollAnimation();
   const categoryIcons = {
     frontend: <Code className="h-6 w-6" />,
     backend: <Server className="h-6 w-6" />,
@@ -27,8 +30,16 @@ export default function Skills() {
   const categories = ['frontend', 'backend', 'database', 'tools'] as const;
 
   return (
-    <section id="skills" className="py-20 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-4">
+    <section id="skills" className="py-20 bg-white dark:bg-gray-900" ref={ref}>
+      <motion.div 
+        className="container mx-auto px-4"
+        initial="hidden"
+        animate={controls}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { duration: 0.6, staggerChildren: 0.15 } }
+        }}
+      >
         <div className="max-w-6xl mx-auto">
           {/* Titre de section */}
           <div className="text-center mb-16">
@@ -43,11 +54,23 @@ export default function Skills() {
           </div>
 
           {/* Grille des compétences par catégorie */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {categories.map((category) => (
-              <div
+          <motion.div 
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+            }}
+          >
+            {categories.map((category, index) => (
+              <motion.div
                 key={category}
                 className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg transition-all duration-300"
+                variants={{
+                  hidden: { opacity: 0, y: 50 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+                }}
+                whileHover={{ scale: 1.05, y: -5 }}
+                transition={{ type: "spring", stiffness: 300 }}
               >
                 {/* En-tête de catégorie */}
                 <div className="flex items-center mb-6">
@@ -67,9 +90,9 @@ export default function Skills() {
                       <SkillItem key={skill.name} skill={skill} />
                     ))}
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Section résumé */}
           <div className="mt-16 text-center">
@@ -84,7 +107,7 @@ export default function Skills() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

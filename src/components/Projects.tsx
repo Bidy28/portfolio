@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Github, ExternalLink, Filter } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { projectsData, Project } from '../data/projectsData';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 export default function Projects() {
+  const { ref, controls } = useScrollAnimation();
   const [activeFilter, setActiveFilter] = useState<'all' | 'frontend' | 'backend' | 'fullstack'>('all');
 
   const filteredProjects = activeFilter === 'all' 
@@ -17,8 +20,16 @@ export default function Projects() {
   ];
 
   return (
-    <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-800">
-      <div className="container mx-auto px-4">
+    <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-800" ref={ref}>
+      <motion.div 
+        className="container mx-auto px-4"
+        initial="hidden"
+        animate={controls}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { duration: 0.6, staggerChildren: 0.1 } }
+        }}
+      >
         <div className="max-w-6xl mx-auto">
           {/* Titre de section */}
           <div className="text-center mb-16">
@@ -51,24 +62,39 @@ export default function Projects() {
           </div>
 
           {/* Grille des projets */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+          <motion.div 
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+            }}
+          >
+            {filteredProjects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
             ))}
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
 
 interface ProjectCardProps {
   project: Project;
+  index: number;
 }
 
-function ProjectCard({ project }: ProjectCardProps) {
+function ProjectCard({ project, index }: ProjectCardProps) {
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+    <motion.div 
+      className="bg-white dark:bg-gray-900 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+      variants={{
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+      }}
+      whileHover={{ scale: 1.03 }}
+      transition={{ type: "spring", stiffness: 300 }}
+    >
       {/* Image */}
       <div className="relative overflow-hidden">
         <img
@@ -135,6 +161,6 @@ function ProjectCard({ project }: ProjectCardProps) {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
